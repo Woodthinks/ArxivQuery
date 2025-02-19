@@ -7,15 +7,15 @@ def search_arxiv(
     max_results: int = 10,
     sort_by=arxiv.SortCriterion.Relevance,
     download: bool = False,
+    download_path: str = ".",
 ):
-    query_parts: List[str] = []
+    query_parts = []
     for prefix, query in prefix_query_pairs:
         if prefix == "all":
             query_parts.append(query)
         else:
             query_parts.append(f"{prefix}:{query}")
-
-    search_query: str = " AND ".join(query_parts)
+    search_query = " AND ".join(query_parts)
     search = arxiv.Search(query=search_query, max_results=max_results, sort_by=sort_by)
     client = arxiv.Client()
     results = []
@@ -37,7 +37,7 @@ def search_arxiv(
     """
 
     for result in client.results(search):
-        result_dict: Dict[str, Union[str, List[str]]] = {
+        result_dict = {
             "entry_id": result.entry_id,
             "updated": str(result.updated),
             "published": str(result.published),
@@ -56,9 +56,10 @@ def search_arxiv(
 
         if download:
             try:
-                result.download_pdf()
-                print(f"Successfully downloaded paper: {result.title}")
+                result.download_pdf(dirpath=download_path)
+                print(
+                    f"Successfully downloaded paper: {result.title} to {download_path}"
+                )
             except Exception as e:
                 print(f"Error occurred while downloading paper {result.title}: {e}")
-
     return results
