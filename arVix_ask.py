@@ -4,18 +4,31 @@ from typing import List, Tuple, Dict, Union
 
 def search_arxiv(
     prefix_query_pairs: List[Tuple[str, str]],
+    relations: List[str],
     max_results: int = 10,
     sort_by=arxiv.SortCriterion.Relevance,
     download: bool = False,
     download_path: str = ".",
 ):
+    # 检查 relations 列表的长度是否符合要求
+    if len(relations) != len(prefix_query_pairs) - 1:
+        raise ValueError(
+            "The length of 'relations' must be one less than the length of 'prefix_query_pairs'."
+        )
+
     query_parts = []
     for prefix, query in prefix_query_pairs:
         if prefix == "all":
             query_parts.append(query)
         else:
             query_parts.append(f"{prefix}:{query}")
-    search_query = " AND ".join(query_parts)
+
+    # 根据 relations 列表构建查询字符串
+    search_query = ""
+    for i in range(len(query_parts) - 1):
+        search_query += f"{query_parts[i]} {relations[i]} "
+    search_query += query_parts[-1]
+
     search = arxiv.Search(query=search_query, max_results=max_results, sort_by=sort_by)
     client = arxiv.Client()
     results = []
