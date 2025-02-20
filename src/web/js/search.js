@@ -1,24 +1,35 @@
-// 页面加载完成后执行代码
 $(document).ready(function () {
-    // 获取页面元素
-    const $keysDropdown = $('#keysDropdown');
-    const $rulesDropdown = $('.rules-dropdown');
-    const $titleInput = $('#titleInput');
-    const $authorInput = $('#authorInput');
-    const $abstractInput = $('#abstractInput');
-    const $commentInput = $('#commentInput');
-    const $journalReferenceInput = $('#journalReferenceInput');
-    const $subjectCategoryInput = $('#subjectCategoryInput');
-    const $reportNumberInput = $('#reportNumberInput');
-    const $idInput = $('#idInput');
-    const $maxResultsInput = $('#maxResultsInput');
-    const $downloadCheckbox = $('#downloadCheckbox');
-    const $downloadPathInput = $('#downloadPathInput');
-    const $submitButton = $('#submitButton');
-  
-    // 监听提交按钮点击事件
-    $submitButton.on('click', function () {
-      // 获取用户输入的值
+
+  const $keysDropdown = $('#keysDropdown');
+  const $rulesDropdown = $('.rules-dropdown');
+  const $titleInput = $('#titleInput');
+  const $authorInput = $('#authorInput');
+  const $abstractInput = $('#abstractInput');
+  const $commentInput = $('#commentInput');
+  const $journalReferenceInput = $('#journalReferenceInput');
+  const $subjectCategoryInput = $('#subjectCategoryInput');
+  const $reportNumberInput = $('#reportNumberInput');
+  const $idInput = $('#idInput');
+  const $maxResultsInput = $('#maxResultsInput');
+  const $downloadCheckbox = $('#downloadCheckbox');
+  const $downloadPathInput = $('#downloadPathInput');
+  const $submitButton = $('#submitButton');
+
+  const $maxResultsError = $('<span style="color: red; display: none;">This one is a must</span>');
+  $maxResultsInput.after($maxResultsError);
+
+  const $requiredFieldsError = $('<span style="color: red; display: none;">At least one of the previous fields must be filled</span>');
+  $submitButton.before($requiredFieldsError);
+
+  $submitButton.on('click', function (event) {
+      if (!$maxResultsInput.val()) {
+          event.preventDefault(); 
+          $maxResultsError.show();
+          return;
+      } else {
+          $maxResultsError.hide(); 
+      }
+
       const title = $titleInput.val();
       const author = $authorInput.val();
       const abstract = $abstractInput.val();
@@ -27,64 +38,66 @@ $(document).ready(function () {
       const subjectCategory = $subjectCategoryInput.val();
       const reportNumber = $reportNumberInput.val();
       const id = $idInput.val();
-  
-      // 打包成字典
-      const dataDict = {
-        "Title": title,
-        "Author": author,
-        "Abstract": abstract,
-        "Comment": comment,
-        "Journal Reference": journalReference,
-        "Subject Category": subjectCategory,
-        "Report Number": reportNumber,
-        "Id": id
-      };
-  
-      // 获取选择的规则并添加到列表中
-      const rulesList = [];
+
+      if (!title && !author && !abstract && !comment && !journalReference && !subjectCategory && !reportNumber && !id) {
+          event.preventDefault(); 
+          $requiredFieldsError.show(); 
+          return;
+      } else {
+          $requiredFieldsError.hide(); 
+      }
+
+      const prefixQueryPairs = [
+          ["ti", title],
+          ["au", author],
+          ["abs", abstract],
+          ["co", comment],
+          ["jr", journalReference],
+          ["cat", subjectCategory],
+          ["rn", reportNumber],
+          ["id", id]
+      ].filter(pair => pair[1]); 
+
+      const relations = [];
       $rulesDropdown.each(function () {
-        const selectedRules = $(this).find('option:selected');
-        selectedRules.each(function () {
-          rulesList.push($(this).val());
-        });
+          const selectedRules = $(this).find('option:selected');
+          selectedRules.each(function () {
+              relations.push($(this).val());
+          });
       });
-  
-      // 获取max_results, download, download_path的值
+
       const maxResults = parseInt($maxResultsInput.val());
       const download = $downloadCheckbox.is(':checked');
       const downloadPath = $downloadPathInput.val();
-  
-      // 构建要发送到后端的数据对象
+
       const dataToSend = {
-        dataDict: dataDict,
-        rules: rulesList,
-        max_results: maxResults,
-        download: download,
-        download_path: downloadPath
+          prefix_query_pairs: prefixQueryPairs,
+          relations: relations,
+          max_results: maxResults,
+          download: download,
+          download_path: downloadPath
       };
-  
-      // 发送数据到后端
+
       $.ajax({
-        url: '/search',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(dataToSend),
-        dataType: 'json'
+          url: '/search',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(dataToSend),
+          dataType: 'json'
       })
       .done(function (data) {
-        console.log('Success:', data);
+          console.log('Success:', data);
       })
       .fail(function (error) {
-        console.error('Error:', error);
+          console.error('Error:', error);
       });
-    });
-  
-    // 监听下载复选框的变化
-    $downloadCheckbox.on('change', function () {
-      if ($(this).is(':checked')) {
-        $downloadPathInput.show();
-      } else {
-        $downloadPathInput.hide();
-      }
-    });
   });
+
+  $downloadCheckbox.on('change', function () {
+      if ($(this).is(':checked')) {
+          $downloadPathInput.show();
+      } else {
+          $downloadPathInput.hide();
+      }
+  });
+});

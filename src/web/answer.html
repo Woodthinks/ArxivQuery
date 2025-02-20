@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Page</title>
+</head>
+
+<body>
+    <div id="result"></div>
+
+    <script>
+        const searchResult = localStorage.getItem('searchResult');
+        if (searchResult) {
+            const data = JSON.parse(searchResult);
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+
+</html>
