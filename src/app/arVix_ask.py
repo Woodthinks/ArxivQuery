@@ -75,4 +75,32 @@ def search_arxiv(
                 )
             except Exception as e:
                 print(f"Error occurred while downloading paper {result.title}: {e}")
-    return results
+    print(type({"results": results}))
+    print(result)
+    return {"results": results}
+
+
+if __name__ == "__main__":
+    prefix_query_pairs = [
+        ("all", "machine learning"),
+        ("au", "John Doe"),
+        ("ti", "deep learning"),
+    ]
+    relations = ["AND", "OR"]
+    max_results = 5
+    sort_by = arxiv.SortCriterion.Relevance
+    download = False
+    download_path = "./papers"
+
+    results = search_arxiv(
+        prefix_query_pairs=prefix_query_pairs,
+        relations=relations,
+        max_results=max_results,
+        sort_by=sort_by,
+        download=download,
+        download_path=download_path,
+    )
+
+    print("Search Results:")
+    for result in results["results"]:
+        print(result["title"])
