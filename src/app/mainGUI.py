@@ -52,8 +52,8 @@ def GetSearch(infor: Infor):
         return "<h1>File not found</h1>"
 
 
-@app.get("/search")
-async def search():
+@app.get("/answer")
+async def answer():
     try:
         with open("database.json", "r", encoding="utf-8") as file:
             data = json.load(file)

@@ -5,19 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Answer Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/src/web/js/answer.js"></script>
 </head>
 
 <body>
-    <div id="result"></div>
-
-    <script>
-        const searchResult = localStorage.getItem('searchResult');
-        if (searchResult) {
-            const data = JSON.parse(searchResult);
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = JSON.stringify(data, null, 2);
-        }
-    </script>
+    <!-- 用于显示结果的容器 -->
+    <div id="result-container"></div>
 </body>
 
 </html>
