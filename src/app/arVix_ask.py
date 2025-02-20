@@ -6,8 +6,8 @@ def search_arxiv(
     prefix_query_pairs: List[Tuple[str, str]],
     relations: List[str],
     max_results: int = 10,
-    sort_by=arxiv.SortCriterion.Relevance,
     download: bool = False,
+    sort_by=arxiv.SortCriterion.Relevance,
     download_path: str = ".",
 ):
     # 检查 relations 列表的长度是否符合要求

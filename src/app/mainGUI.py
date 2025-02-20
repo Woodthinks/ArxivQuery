@@ -1,12 +1,15 @@
 from arVix_ask import search_arxiv
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List, Tuple, Any
-
+import json
 import uvicorn
 import arVix_ask
 
 app = FastAPI()
+app.mount("/src/web", StaticFiles(directory="src/web"), name="static")
 
 
 class Infor(BaseModel):
@@ -18,12 +21,17 @@ class Infor(BaseModel):
     download_path: str
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def root():
-    return {"message": "Hello World"}
+    try:
+        with open("src/web/homepage.html", "r", encoding="utf-8") as file:
+            html_content = file.read()
+        return html_content
+    except FileNotFoundError:
+        return "<h1>File not found</h1>"
 
 
-@app.get("/search")
+@app.post("/search", response_class=HTMLResponse)
 def GetSearch(infor: Infor):
     result = search_arxiv(
         prefix_query_pairs=infor.prefix_query_pairs,
@@ -33,7 +41,18 @@ def GetSearch(infor: Infor):
         sort_by=infor.sort_by,
         download_path=infor.download_path,
     )
-    return result
+    try:
+        with open("database.json", "w", encoding="utf-8") as file:
+            json.dump(result, file, ensure_ascii=False, indent=4)
+    except Exception as e:
+        print(f"Error saving data to database.json: {e}")
+
+    try:
+        with open("src/web/answer.html", "r", encoding="utf-8") as file:
+            html_content = file.read()
+        return html_content
+    except FileNotFoundError:
+        return "<h1>File not found</h1>"
 
 
 if __name__ == "__main__":
