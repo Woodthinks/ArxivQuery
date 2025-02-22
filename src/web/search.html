@@ -1,91 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Page</title>
-    <link rel="stylesheet" href="/src/web/css/search.css">
-</head>
+    <link rel="stylesheet" href="/src/web/css/search.css" />
+  </head>
 
-<body>
+  <body>
     <form>
-        <label for="titleInput">Title:</label>
-        <input type="text" id="titleInput" placeholder="Enter Title">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="titleInput">Title:</label>
+      <input type="text" id="titleInput" placeholder="Enter Title" />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="authorInput">Author:</label>
-        <input type="text" id="authorInput" placeholder="Enter Author">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="authorInput">Author:</label>
+      <input type="text" id="authorInput" placeholder="Enter Author" />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="abstractInput">Abstract:</label>
-        <input type="text" id="abstractInput" placeholder="Enter Abstract">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="abstractInput">Abstract:</label>
+      <input type="text" id="abstractInput" placeholder="Enter Abstract" />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="commentInput">Comment:</label>
-        <input type="text" id="commentInput" placeholder="Enter Comment">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="commentInput">Comment:</label>
+      <input type="text" id="commentInput" placeholder="Enter Comment" />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="journalReferenceInput">Journal Reference:</label>
-        <input type="text" id="journalReferenceInput" placeholder="Enter Journal Reference">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="journalReferenceInput">Journal Reference:</label>
+      <input
+        type="text"
+        id="journalReferenceInput"
+        placeholder="Enter Journal Reference"
+      />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="subjectCategoryInput">Subject Category:</label>
-        <input type="text" id="subjectCategoryInput" placeholder="Enter Subject Category">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="subjectCategoryInput">Subject Category:</label>
+      <input
+        type="text"
+        id="subjectCategoryInput"
+        placeholder="Enter Subject Category"
+      />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="reportNumberInput">Report Number:</label>
-        <input type="text" id="reportNumberInput" placeholder="Enter Report Number">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="reportNumberInput">Report Number:</label>
+      <input
+        type="text"
+        id="reportNumberInput"
+        placeholder="Enter Report Number"
+      />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="idInput">Id:</label>
-        <input type="text" id="idInput" placeholder="Enter Id">
-        <select class="rules-dropdown" multiple>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="ANDNOT">ANDNOT</option>
-        </select>
+      <label for="idInput">Id:</label>
+      <input type="text" id="idInput" placeholder="Enter Id" />
+      <select class="rules-dropdown" multiple>
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="ANDNOT">ANDNOT</option>
+      </select>
 
-        <label for="maxResultsInput">Max Results (1 - 20):</label>
-        <input type="number" id="maxResultsInput" placeholder="Max Results" min="1" max="20">
+      <label for="maxResultsInput">Max Results (1 - 20):</label>
+      <input
+        type="number"
+        id="maxResultsInput"
+        placeholder="Max Results"
+        min="1"
+        max="20"
+      />
 
-        <input type="checkbox" id="downloadCheckbox"> Download
-        <input type="text" id="downloadPathInput" placeholder="Download Path">
+      <input type="checkbox" id="downloadCheckbox" /> Download
+      <input type="text" id="downloadPathInput" placeholder="Download Path" />
 
-        <button id="submitButton">Submit</button>
+      <button id="submitButton" type="submit">Submit</button>
     </form>
-    
+
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="/src/web/js/search.js"></script>
-    
-</body>
-
+  </body>
 </html>
